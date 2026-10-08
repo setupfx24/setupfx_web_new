@@ -31,13 +31,3 @@ export const teamPage = {
   seoDescription:
     "Meet the SetupFX engineers, designers and analysts who design, build and support your software.",
 } as const;
-
-export const resultsPage = {
-  eyebrow: "RESULTS",
-  title: "The work, and what came of it.",
-  description:
-    "Numbers from the projects we have delivered, and words from the teams we delivered them with.",
-  seoTitle: "Results",
-  seoDescription:
-    "Projects delivered, countries served and support coverage, alongside what our clients say about working with SetupFX.",
-} as const;

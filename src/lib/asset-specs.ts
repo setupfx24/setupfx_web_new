@@ -20,7 +20,6 @@ const PREFIXES: { prefix: string; spec: string }[] = [
   { prefix: "/images/team/", spec: "portrait, 2:3" },
   { prefix: "/images/partners/person-", spec: "200 x 200" },
   { prefix: "/images/partners/logo-", spec: "white SVG" },
-  { prefix: "/images/clients/", spec: "240 x 96, white" },
 ];
 
 export function assetSpec(src: string): string | null {

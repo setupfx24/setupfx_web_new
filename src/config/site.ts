@@ -44,7 +44,6 @@ export const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
   { label: "Team", href: "/team" },
-  { label: "Results", href: "/results" },
 ];
 
 export const socialLinks: SocialLink[] = [
@@ -59,7 +58,6 @@ export const siteRoutes: string[] = [
   "/services",
   "/team",
   "/process",
-  "/results",
   "/industries",
   "/about",
   "/contact",
