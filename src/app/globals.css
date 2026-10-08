@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+/*
+ * Theming
+ * -------
+ * The site is dark by design: pure black ground, off-white type, a single soft blue
+ * accent. Colours live in CSS variables and reach Tailwind through `@theme inline`, so
+ * components use semantic utilities (`bg-surface`, `text-muted`) rather than raw hex.
+ *
+ * A light palette is kept for visitors who ask for one, either through the operating
+ * system or the theme toggle, which sets `data-theme` on <html>.
+ */
+
+:root {
+  color-scheme: dark;
+
+  --background: #000000;
+  --foreground: #f5f5f5;
+  --muted: #9a9a9a;
+  --surface: #17181b;
+  --surface-end: #0f1013;
+  --surface-raised: #1e1f23;
+  --border: rgb(255 255 255 / 0.08);
+  --border-strong: rgb(255 255 255 / 0.16);
+  --accent: #7cbcf0;
+  --accent-soft: rgb(124 188 240 / 0.14);
+  --primary: #f5f5f5;
+  --primary-foreground: #000000;
+  --ring: #7cbcf0;
+
+  /* The hero panel is a light card on the dark page, so it carries its own palette. */
+  --hero-surface: #f2f0ec;
+  --hero-foreground: #0b0b0c;
+  --hero-muted: #6b6b70;
+  --hero-line: rgb(11 11 12 / 0.07);
+  --hero-mark: rgb(11 11 12 / 0.2);
+
+  /* Glow colours for the two highlight cards in the testimonials grid. */
+  --glow-blue: rgb(96 165 250 / 0.5);
+  --glow-amber: rgb(250 204 21 / 0.45);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+
+    --background: #f7f7f8;
+    --foreground: #0b0b0c;
+    --muted: #5c5c63;
+    --surface: #ffffff;
+    --surface-end: #f2f2f4;
+    --surface-raised: #ededf0;
+    --border: rgb(0 0 0 / 0.1);
+    --border-strong: rgb(0 0 0 / 0.18);
+    --accent: #1069a7;
+    --accent-soft: rgb(16 105 167 / 0.12);
+    --primary: #0b0b0c;
+    --primary-foreground: #ffffff;
+    --ring: #1069a7;
+  }
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --background: #f7f7f8;
+  --foreground: #0b0b0c;
+  --muted: #5c5c63;
+  --surface: #ffffff;
+  --surface-end: #f2f2f4;
+  --surface-raised: #ededf0;
+  --border: rgb(0 0 0 / 0.1);
+  --border-strong: rgb(0 0 0 / 0.18);
+  --accent: #1069a7;
+  --accent-soft: rgb(16 105 167 / 0.12);
+  --primary: #0b0b0c;
+  --primary-foreground: #ffffff;
+  --ring: #1069a7;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-surface-end: var(--surface-end);
+  --color-surface-raised: var(--surface-raised);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-ring: var(--ring);
+  --color-hero-surface: var(--hero-surface);
+  --color-hero-foreground: var(--hero-foreground);
+  --color-hero-muted: var(--hero-muted);
+  --color-hero-line: var(--hero-line);
+  --color-hero-mark: var(--hero-mark);
+
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+
+  /* Card radii from the reference: large, soft corners. */
+  --radius-card: 28px;
+  --radius-panel: 32px;
+}
+
+/* Page gutter shared by the navbar, footer and every section. */
+@utility shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1920px;
+  /* Grows with the viewport so sections sit near the edges, floored for phones. */
+  padding-inline: clamp(24px, 5vw, 80px);
+}
+
+/*
+ * The card treatment used throughout: dark gradient fill and a soft inner glow.
+ * Borders stay with the utility classes so each card can tint its own edge.
+ */
+@utility card-surface {
+  background-image: linear-gradient(160deg, var(--surface) 0%, var(--surface-end) 100%);
+  box-shadow:
+    inset 0 1px 0 0 rgb(255 255 255 / 0.04),
+    0 20px 60px -30px rgb(0 0 0 / 0.9);
+}
+
+/*
+ * `dark:` variant for the few cases a token cannot express. Dark is the default here,
+ * so this matches unless the visitor has explicitly asked for the light palette.
+ */
+@custom-variant dark {
+  &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+    @slot;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Keep anchored sections clear of the floating navbar. */
+    scroll-padding-top: 7rem;
+    /* Nothing in the layout may push the page sideways on a 375px screen. */
+    overflow-x: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Headlines are large, light and tightly tracked. */
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.03em;
+  }
+
+  /* A visible focus ring everywhere, for keyboard and screen-reader users. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+}
